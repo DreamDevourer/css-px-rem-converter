@@ -1,4 +1,4 @@
-# Made by Nicolas Mendes - Version 1.0 Aug 2021
+# Made by Nicolas Mendes - Version 1.0.3 Aug 2021
 # CSS Basic Converter makes your life easier converting Px to Rem units or vice versa
 # Don't forget to contribute. You need Python 3.9 and Tkinter.
 # ------------------------------------------------------------------------------
@@ -13,14 +13,14 @@
 # 🧩 Entry informative texts (units)
 # ⚙️ Misc tk close
 # ------------------------------------------------------------------------------
+
 from pathlib import Path
 from tkinter import *
 from tkinter import messagebox
+import re
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
-
-RESULT_FILE = Path("./assets/result/result.res")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -28,32 +28,14 @@ def relative_to_assets(path: str) -> Path:
 
 
 # 📚 Vars
-window = Tk()
+tkRootWindow = Tk()
+tkRootWindow.geometry("1152x700")
+tkRootWindow.configure(bg="#283F52")
+tkRootWindow.title("CSS Basic Converter - Nick")
 
-window.geometry("1152x700")
-window.configure(bg="#283F52")
-window.title("CSS Basic Converter - Nick")
-
-
-canvas = Canvas(
-    window,
-    bg="#283F52",
-    height=700,
-    width=1152,
-    bd=0,
-    highlightthickness=0,
-    relief="ridge"
-)
+canvas = Canvas(tkRootWindow, bg="#283F52", height=700,
+                width=1152, bd=0, highlightthickness=0, relief="ridge")
 canvas.place(x=0, y=0)
-
-# Allow only digits on all entry_*
-
-
-def only_numbers(char):
-    return char.isdigit()
-
-
-validation = window.register(only_numbers)
 
 # 💬 Entries
 # Pixels 1
@@ -138,15 +120,12 @@ entry_bg_4 = canvas.create_image(
     image=entry_image_4
 )
 entry_4 = Entry(
-    window,
     bd=0,
     bg="#94ADC3",
     highlightthickness=0,
     fg="#ffffff",
     disabledforeground="#ffffff",
     textvariable=entry_text_4,
-    validate="key",
-    validatecommand=(validation, '%S'),
     font="Quicksand 20 bold",
     state='disabled',
     disabledbackground="#94ADC3"
@@ -157,7 +136,6 @@ entry_4.place(
     width=250.0,
     height=43.0
 )
-# entry_4.insert(0, "0")
 entry_text_4.set("0")
 
 # text var
@@ -190,6 +168,15 @@ entry_text_5.set("0")
 
 # 🧠 Entries Function and logic
 
+# Regular Expression from module re;
+# https://docs.python.org/3/library/re.html
+# This def will make sure that the remTwo var can have a "." as float
+
+
+def validate(string):
+    result = re.match(r"(\+|\-)?\d+(\.\d+)?$", string)
+    return result is not None
+
 
 def resultPush():
     # Store the value from entry_1 in a variable called pxOne
@@ -214,16 +201,21 @@ def resultPush():
         messagebox.showinfo("Error! Impossible to proceed.",
                             "Please enter only digits!")
 
-    if not remTwo.isdigit() or not fontSize.isdigit():
+    # If remTwo is a digit and it has a dot in the middle then print "Ok"
+    error_remTwo = 0
+
+    if validate(remTwo):
+        print("Ok! remTwo is good to go.")
+    else:
+        print("NO! remTwo is not good to go.")
+        error_remTwo = 1
         entry_2.delete(0, END)
         entry_text_2.set("1")
-        entry_3.delete(0, END)
-        entry_font_Size.set("16")
         messagebox.showinfo("Error! Impossible to proceed.",
                             "Please enter only digits!")
 
-    # if pxOne or fontSize are zero or empty, then show a messagebox.
-    if pxOne == "" or fontSize == "" or pxOne == "0" or fontSize == "0":
+    # if pxOne or fontSize are zero or none, then show a messagebox.
+    if pxOne is None or fontSize is None or pxOne == "0" or fontSize == "0" or error_remTwo == 1:
         print("Error", "Please enter values")
         messagebox.showinfo("Error! Impossible to proceed.",
                             "Please enter valid values")
@@ -235,12 +227,6 @@ def resultPush():
 
         entry_text_5.set(str(remResTwo))
         entry_text_4.set(str(remRes))
-        # Save a file with "remRes" and "remResTwo" on ./assets/result/result.res
-        # with open(RESULT_FILE, "w") as f:
-        #     f.write("Your results are:" + "\n")
-        #     f.write(str(remRes) + "\n")
-        #     f.write(str(remResTwo))
-        #     f.close()
 
 
 # 📕 Static Informative Texts
@@ -388,7 +374,7 @@ canvas.create_rectangle(
     outline="")
 
 # 🎯 Buttons
-# Button Covert
+# Button Convert
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
@@ -458,5 +444,5 @@ pxOneTxt = canvas.create_text(
 canvas.tag_raise(pxOneTxt)
 
 # ⚙️ Misc tk close
-window.resizable(False, False)
-window.mainloop()
+tkRootWindow.resizable(True, True)
+tkRootWindow.mainloop()
