@@ -25,6 +25,6 @@ Make sure to have at least Python 3.2+ intalled, the recommended version is Pyth
 **Next features to be added**
  
 - The ability to put the window on top
+- Two auto copy buttons on the side of result fields.
 - Responsiveness to the overall window
 - An option to save the results on a file 
-- Two auto copy buttons on the side of result fields.
