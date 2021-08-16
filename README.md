@@ -15,6 +15,13 @@
 ## Pixels to REM
 CSS Basic Converter makes your life easier converting Px to REM units or vice versa. Make sure to use REM for UI work and EM for typography. It has a clean and organized code, made with KISS philosophy in mind and daily usage. Design on Figma, built on Python for all desktop OS.
 
+### Dependencies
+Make sure to have at least Python 3.2+ intalled, the recommended version is Python 3.9.6. These are other dependencies
+- PyQt
+- PyTtk
+- Tkinter
+- Re
+
 **Next features to be added**
  
 - The ability to put the window on top
