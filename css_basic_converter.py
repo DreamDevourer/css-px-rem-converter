@@ -1,18 +1,17 @@
-# Made by Nicolas Mendes - Version 1.0.3 Aug 2021
-# CSS Basic Converter makes your life easier converting Px to Rem units or vice versa
-# Don't forget to contribute. You need Python 3.9 and Tkinter.
-# ------------------------------------------------------------------------------
-# SUMMARY:
-# ------------------------------------------------------------------------------
-# 📚 Vars
-# 💬 Entries
-# 🧠 Entries Function and logic
-# 📕 Static Informative Texts
-# 🎲 Shapes
-# 🎯 Buttons
-# 🧩 Entry informative texts (units)
-# ⚙️ Misc tk close
-# ------------------------------------------------------------------------------
+""" Made by Nicolas Mendes - Version 1.0.3 Aug 2021
+CSS Basic Converter makes your life easier converting Px to Rem units or vice versa
+Don't forget to contribute. You need Python 3.9 and Tkinter.
+------------------------------------------------------------------------------
+SUMMARY:
+------------------------------------------------------------------------------
+📚 Vars
+💬 Entries
+🧠 Entries Function and logic
+📕 Static Informative Texts
+🎲 Shapes
+🎯 Buttons
+🧩 Entry informative texts (units)
+------------------------------------------------------------------------------ """
 
 from pathlib import Path
 from tkinter import *
@@ -32,6 +31,7 @@ tkRootWindow = Tk()
 tkRootWindow.geometry("1152x700")
 tkRootWindow.configure(bg="#283F52")
 tkRootWindow.title("CSS Basic Converter - Nick")
+tkRootWindow.resizable(False, False)
 
 canvas = Canvas(tkRootWindow, bg="#283F52", height=700,
                 width=1152, bd=0, highlightthickness=0, relief="ridge")
@@ -179,17 +179,12 @@ def validate(string):
 
 
 def resultPush():
-    # Store the value from entry_1 in a variable called pxOne
+    # Store the value from entry_* in variables
     pxOne = entry_1.get()
-    # Store the value from entry_4 in a variable called remOne
     remOne = entry_4.get()
-    # Store the value from entry_3 in a variable called fontSize
     fontSize = entry_3.get()
-    # Store the value from entry_5 in a variable called pxTwo
     pxTwo = entry_5.get()
-    # Store the value from entry_2 in a variable called remTwo
     remTwo = entry_2.get()
-    # Store the value from entry_3 in a variable called fontSize
     fontSize = entry_3.get()
 
     # If entry_* has alphabetic then clear the all entries and add default values
@@ -201,21 +196,17 @@ def resultPush():
         messagebox.showinfo("Error! Impossible to proceed.",
                             "Please enter only digits!")
 
-    # If remTwo is a digit and it has a dot in the middle then print "Ok"
-    error_remTwo = 0
-
     if validate(remTwo):
         print("Ok! remTwo is good to go.")
     else:
         print("NO! remTwo is not good to go.")
-        error_remTwo = 1
         entry_2.delete(0, END)
         entry_text_2.set("1")
         messagebox.showinfo("Error! Impossible to proceed.",
                             "Please enter only digits!")
 
     # if pxOne or fontSize are zero or none, then show a messagebox.
-    if pxOne is None or fontSize is None or pxOne == "0" or fontSize == "0" or error_remTwo == 1:
+    if pxOne is None or fontSize is None or pxOne == "0" or fontSize == "0":
         print("Error", "Please enter values")
         messagebox.showinfo("Error! Impossible to proceed.",
                             "Please enter valid values")
@@ -442,7 +433,3 @@ pxOneTxt = canvas.create_text(
     font=("Quicksand Regular", 20 * -1)
 )
 canvas.tag_raise(pxOneTxt)
-
-# ⚙️ Misc tk close
-tkRootWindow.resizable(True, True)
-tkRootWindow.mainloop()
